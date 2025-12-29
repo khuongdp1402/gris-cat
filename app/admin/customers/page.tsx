@@ -7,7 +7,7 @@ export default function CustomersPage() {
       email: "mai.nguyen@example.com",
       orders: 3,
       totalSpent: "4,650,000đ",
-    },
+    },   
     {
       id: 2,
       name: "Tran Van An",
