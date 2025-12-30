@@ -1,10 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --font-montserrat: 'Montserrat', sans-serif;
+    --font-playfair: 'Playfair Display', serif;
+    
+    /* Brand Colors - Light Mode Default */
+    --background: #FFFFFF;
+    --foreground: #374151; /* Gray-700 */
+    --accent-grey: #4A5568;
+  }
+
+  .dark {
+    /* Brand Colors - Dark Mode */
+    --background: #1A202C; /* Slate-900 */
+    --foreground: #F3F4F6; /* Gray-100 */
+  }
+
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
+    @apply font-sans antialiased transition-colors duration-300;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair font-medium tracking-tight;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gris-light dark:bg-slate-800;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gris-medium rounded-full hover:bg-gris-dark transition-colors dark:bg-slate-700 dark:hover:bg-slate-600;
   }
 }
 
+@layer components {
+  .container {
+    @apply px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full;
+  }
+}

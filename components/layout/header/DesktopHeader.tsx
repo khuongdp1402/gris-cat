@@ -1,0 +1,172 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { Search, Heart, User, ShoppingBag, Globe } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { cn } from "@/lib/utils";
+import { SettingsPopover } from "./SettingsPopover";
+
+// Main navigation categories - Links to collection pages
+const CATEGORIES = [
+  { label: "NEW ARRIVALS", href: "/collections/new-arrivals" },
+  { label: "CLOTHING", href: "/collections/clothing" },
+  { label: "DRESSES", href: "/collections/dresses" },
+  { label: "BAGS", href: "/collections/bags" },
+  { label: "ACCESSORIES", href: "/collections/accessories" },
+];
+
+// Utility links
+const UTILITY_LINKS = [
+  { label: "ABOUT THE BRAND", href: "/about" },
+  { label: "OUR STORY", href: "/story" },
+];
+
+export function DesktopHeader() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // Increased threshold to 150px and added hysteresis
+          const scrollY = window.scrollY;
+          
+          // Add hysteresis: different thresholds for showing/hiding
+          if (scrollY > 150 && !isScrolled) {
+            setIsScrolled(true);
+          } else if (scrollY < 100 && isScrolled) {
+            setIsScrolled(false);
+          }
+          
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isScrolled]);
+
+  return (
+    <header className="hidden lg:block sticky top-0 z-40 bg-white dark:bg-[#1a202c] border-b border-gray-100 dark:border-gray-800">
+      {/* Row 1: Main Top Bar */}
+      <div className="h-[70px] px-6 border-b border-gray-100 dark:border-gray-800">
+        <div className="max-w-[1440px] mx-auto h-full">
+          <div className="h-full grid grid-cols-3 items-center gap-8">
+            
+            {/* Left: Utility Links */}
+            <div className="flex items-center gap-6">
+              {UTILITY_LINKS.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="text-xs font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Center: Brand Name */}
+            <div className="flex justify-center">
+              <Link
+                href="/"
+                className="font-playfair text-3xl font-bold text-gray-900 dark:text-white hover:opacity-80 transition-opacity"
+              >
+                GRIS-CAT
+              </Link>
+            </div>
+
+            {/* Right: Icons & Settings */}
+            <div className="flex items-center gap-5 justify-end">
+              <button
+                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                aria-label="Search"
+              >
+                <Search className="w-5 h-5" strokeWidth={1.5} />
+              </button>
+
+              <Link
+                href="/wishlist"
+                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                aria-label="Wishlist"
+              >
+                <Heart className="w-5 h-5" strokeWidth={1.5} />
+              </Link>
+
+              <Link
+                href="/account"
+                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                aria-label="Account"
+              >
+                <User className="w-5 h-5" strokeWidth={1.5} />
+              </Link>
+
+              <Link
+                href="/cart"
+                className="relative text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                aria-label="Shopping Cart"
+              >
+                <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
+                <span className="absolute -top-2 -right-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                  0
+                </span>
+              </Link>
+
+              {/* Settings Popover */}
+              <div className="relative">
+                <button
+                  onClick={() => setShowSettings(!showSettings)}
+                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  aria-label="Settings"
+                >
+                  <Globe className="w-5 h-5" strokeWidth={1.5} />
+                </button>
+
+                <SettingsPopover
+                  isOpen={showSettings}
+                  onClose={() => setShowSettings(false)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Row 2: Category Navigation (Collapses on scroll) */}
+      <AnimatePresence>
+        {!isScrolled && (
+          <motion.div
+            initial={{ height: 56, opacity: 1 }}
+            animate={{ height: 56, opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <nav className="h-14 px-6">
+              <div className="max-w-[1440px] mx-auto h-full">
+                <div className="h-full flex items-center justify-center gap-8">
+                  {CATEGORIES.map((category) => (
+                    <Link
+                      key={category.label}
+                      href={category.href}
+                      className="text-xs font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                    >
+                      {category.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
+

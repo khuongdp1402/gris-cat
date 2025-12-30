@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Montserrat } from "next/font/google";
-import { Header, Footer } from "@/components/layout";
+import { NewsTicker, Header, Footer } from "@/components/layout";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -35,15 +36,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${playfair.variable} ${inter.variable} ${montserrat.variable} font-sans antialiased`}
+        className={`${playfair.variable} ${inter.variable} ${montserrat.variable} font-sans antialiased bg-white dark:bg-[#1a202c] text-gray-900 dark:text-gray-100`}
       >
-        <Header />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        <ThemeProvider>
+          {/* Global Announcement */}
+          <NewsTicker />
+
+          {/* Primary Navigation */}
+          <Header />
+
+          {/* Page Content */}
+          {children}
+
+          {/* Footer */}
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-
