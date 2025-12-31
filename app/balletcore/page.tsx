@@ -4,7 +4,7 @@ const balletcoreProducts = [
   {
     name: "Ballet Midi Skirt - Charcoal",
     price: "980,000đ",
-    imageUrl:
+    imageMain:
       "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=800&auto=format&fit=crop",
     id: "ballet-midi-skirt",
   },
@@ -28,7 +28,8 @@ export default function BalletcorePage() {
             key={product.id}
             name={product.name}
             price={product.price}
-            imageUrl={product.imageUrl}
+            imageMain={product.imageMain}
+            imageHover={product.imageMain}
           />
         ))}
       </div>

@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Search, Heart, User, ShoppingBag, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -23,6 +25,8 @@ const UTILITY_LINKS = [
 ];
 
 export function DesktopHeader() {
+  const pathname = usePathname();
+  const isHomePage = pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -53,9 +57,9 @@ export function DesktopHeader() {
   }, [isScrolled]);
 
   return (
-    <header className="hidden lg:block sticky top-0 z-40 bg-white dark:bg-[#1a202c] border-b border-gray-100 dark:border-gray-800">
+    <header className="hidden lg:block sticky top-0 z-40 bg-background border-b border-border">
       {/* Row 1: Main Top Bar */}
-      <div className="h-[70px] px-6 border-b border-gray-100 dark:border-gray-800">
+      <div className="h-[70px] px-6 border-b border-border">
         <div className="max-w-[1440px] mx-auto h-full">
           <div className="h-full grid grid-cols-3 items-center gap-8">
             
@@ -65,107 +69,123 @@ export function DesktopHeader() {
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="text-xs font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+                  className="text-xs font-bold uppercase tracking-widest text-foreground-muted hover:text-foreground transition-colors"
                 >
                   {link.label}
                 </Link>
               ))}
             </div>
 
-            {/* Center: Brand Name */}
+            {/* Center: Logo + Brand Name */}
             <div className="flex justify-center">
               <Link
                 href="/"
-                className="font-playfair text-3xl font-bold text-gray-900 dark:text-white hover:opacity-80 transition-opacity"
+                className="flex items-center justify-center gap-2 hover:opacity-80 transition-opacity"
               >
-                GRIS-CAT
-              </Link>
-            </div>
-
-            {/* Right: Icons & Settings */}
-            <div className="flex items-center gap-5 justify-end">
-              <button
-                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                aria-label="Search"
-              >
-                <Search className="w-5 h-5" strokeWidth={1.5} />
-              </button>
-
-              <Link
-                href="/wishlist"
-                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                aria-label="Wishlist"
-              >
-                <Heart className="w-5 h-5" strokeWidth={1.5} />
-              </Link>
-
-              <Link
-                href="/account"
-                className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                aria-label="Account"
-              >
-                <User className="w-5 h-5" strokeWidth={1.5} />
-              </Link>
-
-              <Link
-                href="/cart"
-                className="relative text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                aria-label="Shopping Cart"
-              >
-                <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />
-                <span className="absolute -top-2 -right-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                  0
+                <Image
+                  src="/logo.png"
+                  alt="GRIS-CAT"
+                  width={180}
+                  height={60}
+                  className="h-12 w-auto object-contain"
+                  priority
+                />
+                <span className="font-playfair text-3xl font-bold text-foreground-muted">
+                  GRIS-CAT
                 </span>
               </Link>
-
-              {/* Settings Popover */}
-              <div className="relative">
-                <button
-                  onClick={() => setShowSettings(!showSettings)}
-                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                  aria-label="Settings"
-                >
-                  <Globe className="w-5 h-5" strokeWidth={1.5} />
-                </button>
-
-                <SettingsPopover
-                  isOpen={showSettings}
-                  onClose={() => setShowSettings(false)}
-                />
-              </div>
             </div>
+
+                {/* Right: Icons & Settings */}
+                <div className="flex items-center gap-4 justify-end">
+                  <button
+                    onClick={() => {
+                      const event = new CustomEvent('openSearch');
+                      window.dispatchEvent(event);
+                    }}
+                    className="p-1.5 text-foreground-muted hover:text-foreground transition-colors"
+                    aria-label="Search"
+                  >
+                    <Search className="w-[22px] h-[22px]" strokeWidth={1.5} />
+                  </button>
+
+                  <Link
+                    href="/wishlist"
+                    className="p-1.5 text-foreground-muted hover:text-foreground transition-colors"
+                    aria-label="Wishlist"
+                  >
+                    <Heart className="w-[22px] h-[22px]" strokeWidth={1.5} />
+                  </Link>
+
+                  <Link
+                    href="/account"
+                    className="p-1.5 text-foreground-muted hover:text-foreground transition-colors"
+                    aria-label="Account"
+                  >
+                    <User className="w-[22px] h-[22px]" strokeWidth={1.5} />
+                  </Link>
+
+                  <Link
+                    href="/cart"
+                    className="relative p-1.5 text-foreground-muted hover:text-foreground transition-colors"
+                    aria-label="Shopping Cart"
+                  >
+                    <ShoppingBag className="w-[22px] h-[22px]" strokeWidth={1.5} />
+                    <span className="absolute top-0 right-0 bg-foreground text-background text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+                      0
+                    </span>
+                  </Link>
+
+                  {/* Settings Popover */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowSettings(!showSettings)}
+                      className="p-1.5 text-foreground-muted hover:text-foreground transition-colors"
+                      aria-label="Settings"
+                    >
+                      <Globe className="w-[22px] h-[22px]" strokeWidth={1.5} />
+                    </button>
+
+                    <SettingsPopover
+                      isOpen={showSettings}
+                      onClose={() => setShowSettings(false)}
+                    />
+                  </div>
+                </div>
           </div>
         </div>
       </div>
 
-      {/* Row 2: Category Navigation (Collapses on scroll) */}
-      <AnimatePresence>
-        {!isScrolled && (
-          <motion.div
-            initial={{ height: 56, opacity: 1 }}
-            animate={{ height: 56, opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <nav className="h-14 px-6">
-              <div className="max-w-[1440px] mx-auto h-full">
-                <div className="h-full flex items-center justify-center gap-8">
-                  {CATEGORIES.map((category) => (
-                    <Link
-                      key={category.label}
-                      href={category.href}
-                      className="text-xs font-bold uppercase tracking-widest text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-                    >
-                      {category.label}
-                    </Link>
-                  ))}
+      {/* Row 2: Category Navigation (Only on Homepage, Collapses on scroll) */}
+      {isHomePage && (
+        <AnimatePresence>
+          {!isScrolled && (
+            <motion.div
+              initial={{ height: 56, opacity: 1 }}
+              animate={{ height: 56, opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <nav className="h-14 px-6">
+                <div className="max-w-[1440px] mx-auto h-full">
+                  <div className="h-full flex items-center justify-center gap-8">
+                    {CATEGORIES.map((category) => (
+                      <Link
+                        key={category.label}
+                        href={category.href}
+                        className="text-xs font-bold uppercase tracking-widest text-foreground-muted hover:text-foreground transition-colors"
+                      >
+                        {category.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      )}
     </header>
   );
 }

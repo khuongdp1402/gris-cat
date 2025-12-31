@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { Heart, MapPin, ChevronDown, ChevronUp } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { SizeGuideModal } from "./SizeGuideModal";
 
 interface ProductInfoProps {
   product: {
@@ -38,6 +39,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
   );
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [expandedSections, setExpandedSections] = useState<string[]>([]);
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
 
   const toggleSection = (section: string) => {
     setExpandedSections(prev =>
@@ -98,22 +100,22 @@ export function ProductInfo({ product }: ProductInfoProps) {
         </span>
       </div>
 
-      {/* Color Selector */}
+      {/* Color Selector - Compact */}
       <div>
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-2">
           <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
             Color: {product.colors.find(c => c.id === selectedColor)?.name}
           </label>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {product.colors.map((color) => (
             <button
               key={color.id}
               onClick={() => setSelectedColor(color.id)}
               className={cn(
-                "w-10 h-10 rounded-full border-2 transition-all",
+                "w-8 h-8 rounded-full border-2 transition-all",
                 selectedColor === color.id
-                  ? "ring-4 ring-offset-2 ring-gray-900 dark:ring-gray-100 border-gray-900 dark:border-gray-100"
+                  ? "ring-2 ring-offset-1 ring-gray-900 dark:ring-gray-100 border-gray-900 dark:border-gray-100"
                   : "border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500"
               )}
               style={{
@@ -127,19 +129,19 @@ export function ProductInfo({ product }: ProductInfoProps) {
         </div>
       </div>
 
-      {/* Size Selector */}
+      {/* Size Selector - Compact */}
       {product.sizes.length > 0 && (
         <div>
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2">
             <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
               Size
             </label>
-            <Link
-              href="/size-guide"
+            <button
+              onClick={() => setIsSizeGuideOpen(true)}
               className="text-xs text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-200 transition-colors"
             >
               Size Guide
-            </Link>
+            </button>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             {product.sizes.map((size) => (
@@ -148,7 +150,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 onClick={() => size.isAvailable && setSelectedSize(size.id)}
                 disabled={!size.isAvailable}
                 className={cn(
-                  "px-4 py-2 text-sm font-medium border-2 transition-all",
+                  "px-3 py-1.5 text-sm font-medium border-2 transition-all min-w-[60px]",
                   selectedSize === size.id
                     ? "bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 border-gray-900 dark:border-gray-100"
                     : size.isAvailable
@@ -288,7 +290,12 @@ export function ProductInfo({ product }: ProductInfoProps) {
           )}
         </div>
       </div>
+
+      {/* Size Guide Modal */}
+      <SizeGuideModal
+        isOpen={isSizeGuideOpen}
+        onClose={() => setIsSizeGuideOpen(false)}
+      />
     </div>
   );
 }
-

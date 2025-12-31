@@ -4,7 +4,7 @@ const accessories = [
   {
     name: "Silk Scarf - Grey",
     price: "650,000đ",
-    imageUrl:
+    imageMain:
       "https://images.unsplash.com/photo-1532453288672-3a27e9be9efd?q=80&w=800&auto=format&fit=crop",
     id: "silk-scarf-grey",
   },
@@ -28,7 +28,8 @@ export default function AccessoriesPage() {
             key={product.id}
             name={product.name}
             price={product.price}
-            imageUrl={product.imageUrl}
+            imageMain={product.imageMain}
+            imageHover={product.imageMain}
           />
         ))}
       </div>

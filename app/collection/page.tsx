@@ -5,28 +5,28 @@ const products = [
   {
     name: "Gris Silk Wrap Top",
     price: "1,250,000đ",
-    imageUrl:
+    imageMain:
       "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=800&auto=format&fit=crop",
     id: "gris-silk-wrap-top",
   },
   {
     name: "Ballet Midi Skirt - Charcoal",
     price: "980,000đ",
-    imageUrl:
+    imageMain:
       "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=800&auto=format&fit=crop",
     id: "ballet-midi-skirt",
   },
   {
     name: "Classic Structure Blazer",
     price: "2,400,000đ",
-    imageUrl:
+    imageMain:
       "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop",
     id: "classic-structure-blazer",
   },
   {
     name: "Velvet Evening Dress",
     price: "3,100,000đ",
-    imageUrl:
+    imageMain:
       "https://images.unsplash.com/photo-1566479179817-4d9c0c5e3e0e?q=80&w=800&auto=format&fit=crop",
     id: "velvet-evening-dress",
   },
@@ -50,7 +50,8 @@ export default function CollectionPage() {
             key={product.id}
             name={product.name}
             price={product.price}
-            imageUrl={product.imageUrl}
+            imageMain={product.imageMain}
+            imageHover={product.imageMain}
           />
         ))}
       </div>

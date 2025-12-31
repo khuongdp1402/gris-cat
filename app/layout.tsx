@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Playfair_Display, Inter, Montserrat } from "next/font/google";
 import { NewsTicker, Header, Footer } from "@/components/layout";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { SearchProvider } from "@/components/providers/SearchProvider";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -38,20 +39,22 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${playfair.variable} ${inter.variable} ${montserrat.variable} font-sans antialiased bg-white dark:bg-[#1a202c] text-gray-900 dark:text-gray-100`}
+        className={`${playfair.variable} ${inter.variable} ${montserrat.variable} font-sans antialiased bg-background text-foreground`}
       >
         <ThemeProvider>
-          {/* Global Announcement */}
-          <NewsTicker />
+          <SearchProvider>
+            {/* Global Announcement */}
+            <NewsTicker />
 
-          {/* Primary Navigation */}
-          <Header />
+            {/* Primary Navigation */}
+            <Header />
 
-          {/* Page Content */}
-          {children}
+            {/* Page Content */}
+            {children}
 
-          {/* Footer */}
-          <Footer />
+            {/* Footer */}
+            <Footer />
+          </SearchProvider>
         </ThemeProvider>
       </body>
     </html>

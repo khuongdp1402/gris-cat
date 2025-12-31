@@ -41,11 +41,11 @@ export function SettingsPopover({ isOpen, onClose }: SettingsPopoverProps) {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: -10 }}
           transition={{ duration: 0.2 }}
-          className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg overflow-hidden"
+          className="absolute right-0 top-full mt-2 w-56 bg-background border border-border rounded-lg shadow-elegant-lg overflow-hidden"
         >
           {/* Language Switcher */}
-          <div className="p-4 border-b border-gray-100 dark:border-gray-700">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
+          <div className="p-4 border-b border-border">
+            <p className="text-xs font-bold uppercase tracking-wider text-foreground-muted mb-3">
               Language
             </p>
             <div className="flex gap-2">
@@ -53,8 +53,8 @@ export function SettingsPopover({ isOpen, onClose }: SettingsPopoverProps) {
                 onClick={() => setLanguage("EN")}
                 className={`flex-1 px-3 py-2 text-sm font-medium rounded transition-colors ${
                   language === "EN"
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                    ? "bg-foreground text-background"
+                    : "bg-surface text-foreground-muted hover:bg-border"
                 }`}
               >
                 EN
@@ -63,8 +63,8 @@ export function SettingsPopover({ isOpen, onClose }: SettingsPopoverProps) {
                 onClick={() => setLanguage("VN")}
                 className={`flex-1 px-3 py-2 text-sm font-medium rounded transition-colors ${
                   language === "VN"
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                    ? "bg-foreground text-background"
+                    : "bg-surface text-foreground-muted hover:bg-border"
                 }`}
               >
                 VN
@@ -74,7 +74,7 @@ export function SettingsPopover({ isOpen, onClose }: SettingsPopoverProps) {
 
           {/* Theme Toggle */}
           <div className="p-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-3">
+            <p className="text-xs font-bold uppercase tracking-wider text-foreground-muted mb-3">
               Theme
             </p>
             <div className="flex gap-2">
@@ -82,8 +82,8 @@ export function SettingsPopover({ isOpen, onClose }: SettingsPopoverProps) {
                 onClick={() => theme === "dark" && toggleTheme()}
                 className={`flex-1 px-3 py-2 text-sm font-medium rounded transition-colors flex items-center justify-center gap-2 ${
                   theme === "light"
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                    ? "bg-foreground text-background"
+                    : "bg-surface text-foreground-muted hover:bg-border"
                 }`}
               >
                 <Sun className="w-4 h-4" />
@@ -93,8 +93,8 @@ export function SettingsPopover({ isOpen, onClose }: SettingsPopoverProps) {
                 onClick={() => theme === "light" && toggleTheme()}
                 className={`flex-1 px-3 py-2 text-sm font-medium rounded transition-colors flex items-center justify-center gap-2 ${
                   theme === "dark"
-                    ? "bg-gray-900 text-white"
-                    : "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600"
+                    ? "bg-foreground text-background"
+                    : "bg-surface text-foreground-muted hover:bg-border"
                 }`}
               >
                 <Moon className="w-4 h-4" />

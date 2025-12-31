@@ -27,7 +27,7 @@ export function NewsTicker() {
     if (!isVisible) return null;
 
     return (
-        <aside className="relative w-full h-[40px] bg-gris-light dark:bg-slate-800 flex items-center justify-center overflow-hidden z-50">
+        <aside className="relative w-full h-[40px] bg-background-alt flex items-center justify-center overflow-hidden z-50 border-b border-border">
             <div className="relative w-full max-w-[1440px] px-4 flex items-center justify-center">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -36,7 +36,7 @@ export function NewsTicker() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.8, ease: "easeInOut" }}
-                        className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-gris-dark dark:text-text-main-dark text-center"
+                        className="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-foreground-muted text-center"
                     >
                         {TICKER_ITEMS[currentIndex]}
                     </motion.div>
@@ -48,7 +48,7 @@ export function NewsTicker() {
                         sessionStorage.setItem("announcementBarClosed", "true");
                         window.dispatchEvent(new Event("announcementBarClosed"));
                     }}
-                    className="absolute right-4 md:right-8 text-gris-dark dark:text-text-main-dark hover:opacity-60 transition-opacity"
+                    className="absolute right-4 md:right-8 text-foreground-muted hover:opacity-60 transition-opacity"
                     aria-label="Close"
                     type="button"
                 >

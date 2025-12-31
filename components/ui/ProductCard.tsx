@@ -97,13 +97,13 @@ export function ProductCard({
       </div>
 
       {/* Info Area */}
-      <div className="mt-3 flex flex-col space-y-1">
+      <div className="mt-3 flex flex-col space-y-1 text-center">
         <h3 className="text-[11px] md:text-sm uppercase font-medium tracking-widest text-foreground dark:text-text-main-dark truncate leading-none">
           {name}
         </h3>
         
         {/* Price Section */}
-        <div className="flex items-baseline gap-2">
+        <div className="flex items-baseline justify-center gap-2">
           {originalPrice && (
             <span className="text-xs text-gray-400 dark:text-gray-500 line-through">
               {originalPrice}
@@ -121,7 +121,7 @@ export function ProductCard({
 
         {/* Color Swatches */}
         {colors && colors.length > 0 && (
-          <div className="flex items-center gap-1.5 pt-1">
+          <div className="flex items-center justify-center gap-1.5 pt-1">
             {colors.map((color, index) => (
               <button
                 key={`${color.name}-${index}`}

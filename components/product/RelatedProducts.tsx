@@ -1,69 +1,79 @@
 "use client";
 
-import { ProductCard } from "@/components/ui/ProductCard";
+import { ProductCard, type ColorVariant } from "@/components/ui/ProductCard";
+
+type RelatedCardItem = {
+  id: string;
+  name: string;
+  price: string;
+  imageMain: string;
+  imageHover: string;
+  colors?: ColorVariant[];
+  isNew?: boolean;
+};
 
 // Mock related products
-const YOU_MAY_ALSO_LIKE = [
+const YOU_MAY_ALSO_LIKE: RelatedCardItem[] = [
   {
     id: "2",
     name: "Minimalist Shoulder Bag",
     price: "1,450,000đ",
-    imageMain: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=800&auto=format&fit=crop",
-    imageHover: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=800&auto=format&fit=crop",
+    imageMain: "/vay1.png",
+    imageHover: "/da876d982174822a7ffd56dd84d37bfb.jpg",
   },
   {
     id: "3",
     name: "Classic Leather Clutch",
     price: "1,250,000đ",
-    imageMain: "https://images.unsplash.com/photo-1564422167509-4f15e80f4f05?q=80&w=800&auto=format&fit=crop",
-    imageHover: "https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=800&auto=format&fit=crop",
+    imageMain: "/tui-tote.png",
+    imageHover: "/3ba3d90c5617589e971be9adeb758b2d.jpg",
     colors: [{ name: "Navy", hex: "#1e3a8a" }],
   },
   {
     id: "4",
     name: "Crossbody Chain Bag",
     price: "1,650,000đ",
-    imageMain: "https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=800&auto=format&fit=crop",
-    imageHover: "https://images.unsplash.com/photo-1564422167509-4f15e80f4f05?q=80&w=800&auto=format&fit=crop",
+    imageMain: "/vong1.png",
+    imageHover: "/cb2b9f88de24c5087cb476970406c1f9.jpg",
     isNew: true,
   },
   {
     id: "5",
     name: "Oversized Shopper Tote",
     price: "1,950,000đ",
-    imageMain: "https://images.unsplash.com/photo-1598532163257-ae3c6b2524b6?q=80&w=800&auto=format&fit=crop",
-    imageHover: "https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=800&auto=format&fit=crop",
+    imageMain: "/vay2.png",
+    imageHover: "/ef2f59dd753cc514f448f70c3913c810.jpg",
   },
 ];
 
-const STYLE_IT_WITH = [
+const STYLE_IT_WITH: RelatedCardItem[] = [
   {
     id: "6",
     name: "Silk Scarf",
     price: "850,000đ",
-    imageMain: "https://images.unsplash.com/photo-1581044777550-4cfa60707c03?q=80&w=800&auto=format&fit=crop",
-    imageHover: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=800&auto=format&fit=crop",
+    imageMain: "/vay1.png",
+    imageHover: "/da876d982174822a7ffd56dd84d37bfb.jpg",
   },
   {
     id: "7",
     name: "Leather Belt",
     price: "650,000đ",
-    imageMain: "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop",
-    imageHover: "https://images.unsplash.com/photo-1551028719-00167b16eac5?q=80&w=800&auto=format&fit=crop",
+    imageMain: "/vong1.png",
+    imageHover: "/cb2b9f88de24c5087cb476970406c1f9.jpg",
   },
   {
     id: "8",
     name: "Minimalist Watch",
     price: "2,250,000đ",
-    imageMain: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
-    imageHover: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=800&auto=format&fit=crop",
+    imageMain: "/tui-tote.png",
+    imageHover: "/3ba3d90c5617589e971be9adeb758b2d.jpg",
   },
   {
     id: "9",
     name: "Leather Wallet",
     price: "950,000đ",
-    imageMain: "https://images.unsplash.com/photo-1627123424574-724758594e93?q=80&w=800&auto=format&fit=crop",
-    imageHover: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=800&auto=format&fit=crop",
+    imageMain: "/vay2.png",
+    imageHover: "/ef2f59dd753cc514f448f70c3913c810.jpg",
   },
 ];
 

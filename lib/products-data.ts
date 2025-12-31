@@ -18,23 +18,23 @@ export const SAMPLE_PRODUCTS = [
     images: [
       {
         id: "1",
-        url: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1200&auto=format&fit=crop",
+        url: "/tui-tote.png",
         alt: "Gris Signature Tote - Front View",
         isMain: true,
       },
       {
         id: "2",
-        url: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1200&auto=format&fit=crop",
+        url: "/3ba3d90c5617589e971be9adeb758b2d.jpg",
         alt: "Gris Signature Tote - Detail",
       },
       {
         id: "3",
-        url: "https://images.unsplash.com/photo-1564422167509-4f15e80f4f05?q=80&w=1200&auto=format&fit=crop",
+        url: "/vong1.png",
         alt: "Gris Signature Tote - Interior",
       },
       {
         id: "4",
-        url: "https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=1200&auto=format&fit=crop",
+        url: "/cb2b9f88de24c5087cb476970406c1f9.jpg",
         alt: "Gris Signature Tote - Side View",
       },
     ],
@@ -72,14 +72,19 @@ export const SAMPLE_PRODUCTS = [
     images: [
       {
         id: "1",
-        url: "https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=1200&auto=format&fit=crop",
+        url: "/vay1.png",
         alt: "Minimalist Shoulder Bag - Front",
         isMain: true,
       },
       {
         id: "2",
-        url: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=1200&auto=format&fit=crop",
+        url: "/da876d982174822a7ffd56dd84d37bfb.jpg",
         alt: "Minimalist Shoulder Bag - Detail",
+      },
+      {
+        id: "3",
+        url: "/vay2.png",
+        alt: "Minimalist Shoulder Bag - Side View",
       },
     ],
     colors: [
@@ -114,14 +119,19 @@ export const SAMPLE_PRODUCTS = [
     images: [
       {
         id: "1",
-        url: "https://images.unsplash.com/photo-1564422167509-4f15e80f4f05?q=80&w=1200&auto=format&fit=crop",
+        url: "/vong1.png",
         alt: "Classic Leather Clutch - Front",
         isMain: true,
       },
       {
         id: "2",
-        url: "https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=1200&auto=format&fit=crop",
+        url: "/cb2b9f88de24c5087cb476970406c1f9.jpg",
         alt: "Classic Leather Clutch - Interior",
+      },
+      {
+        id: "3",
+        url: "/tui-tote.png",
+        alt: "Classic Leather Clutch - Detail",
       },
     ],
     colors: [
@@ -156,14 +166,19 @@ export const SAMPLE_PRODUCTS = [
     images: [
       {
         id: "1",
-        url: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=1200&auto=format&fit=crop",
+        url: "/vay2.png",
         alt: "Silk Wrap Bodysuit - Front",
         isMain: true,
       },
       {
         id: "2",
-        url: "https://images.unsplash.com/photo-1594633313593-bab3825d0caf?q=80&w=1200&auto=format&fit=crop",
+        url: "/ef2f59dd753cc514f448f70c3913c810.jpg",
         alt: "Silk Wrap Bodysuit - Detail",
+      },
+      {
+        id: "3",
+        url: "/vay1.png",
+        alt: "Silk Wrap Bodysuit - Side View",
       },
     ],
     colors: [
@@ -200,9 +215,19 @@ export const SAMPLE_PRODUCTS = [
     images: [
       {
         id: "1",
-        url: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=1200&auto=format&fit=crop",
+        url: "/vay1.png",
         alt: "Tulle Ballet Skirt - Front",
         isMain: true,
+      },
+      {
+        id: "2",
+        url: "/da876d982174822a7ffd56dd84d37bfb.jpg",
+        alt: "Tulle Ballet Skirt - Detail",
+      },
+      {
+        id: "3",
+        url: "/vay2.png",
+        alt: "Tulle Ballet Skirt - Back",
       },
     ],
     colors: [

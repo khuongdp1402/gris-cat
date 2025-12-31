@@ -52,29 +52,29 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
   const isExpanded = (section: string) => expandedSections.includes(section);
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-0 pt-0">
       {/* Filter Header */}
       {!hideHeader && (
-        <div className="border-b border-gray-200 dark:border-gray-800 pb-4 mb-4">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
+        <div className="border-b border-border pb-4 mb-4">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-foreground">
             FILTER
           </h2>
         </div>
       )}
 
       {/* Category Filter */}
-      <div className="border-b border-gray-200 dark:border-gray-800">
+      <div className="border-b border-border">
         <button
           onClick={() => toggleSection("category")}
-          className="w-full flex items-center justify-between py-4 text-left hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
+          className="w-full flex items-center justify-between py-4 px-4 text-left bg-surface hover:bg-border transition-colors"
         >
-          <span className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
+          <span className="text-sm font-bold uppercase tracking-wider text-foreground">
             Category
           </span>
           {isExpanded("category") ? (
-            <ChevronUp className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ChevronUp className="w-5 h-5 text-foreground-muted" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ChevronDown className="w-5 h-5 text-foreground-muted" />
           )}
         </button>
 
@@ -88,7 +88,7 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
             {CATEGORIES.map((category) => (
               <label
                 key={category.id}
-                className="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900/50 py-1 transition-colors"
+                className="flex items-center justify-between cursor-pointer hover:bg-surface py-1 transition-colors"
               >
                 <div className="flex items-center gap-2">
                   <input
@@ -101,11 +101,11 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
                         setSelectedCategories(selectedCategories.filter(c => c !== category.id));
                       }
                     }}
-                    className="w-4 h-4 text-gray-900 border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-gray-400"
+                    className="w-4 h-4 text-foreground border-border rounded focus:ring-2 focus:ring-accent"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">{category.label}</span>
+                  <span className="text-sm text-foreground-muted">{category.label}</span>
                 </div>
-                <span className="text-xs text-gray-500 dark:text-gray-500">({category.count})</span>
+                <span className="text-xs text-foreground-muted">({category.count})</span>
               </label>
             ))}
           </div>
@@ -113,18 +113,18 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
       </div>
 
       {/* Color Filter */}
-      <div className="border-b border-gray-200 dark:border-gray-800">
+      <div className="border-b border-border">
         <button
           onClick={() => toggleSection("color")}
-          className="w-full flex items-center justify-between py-4 text-left hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
+          className="w-full flex items-center justify-between py-4 px-4 text-left bg-surface hover:bg-border transition-colors"
         >
-          <span className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
+          <span className="text-sm font-bold uppercase tracking-wider text-foreground">
             Color
           </span>
           {isExpanded("color") ? (
-            <ChevronUp className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ChevronUp className="w-5 h-5 text-foreground-muted" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ChevronDown className="w-5 h-5 text-foreground-muted" />
           )}
         </button>
 
@@ -138,7 +138,7 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
             {COLORS.map((color) => (
               <label
                 key={color.id}
-                className="flex items-center gap-3 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900/50 py-1 transition-colors"
+                className="flex items-center gap-3 cursor-pointer hover:bg-surface py-1 transition-colors"
               >
                 <input
                   type="checkbox"
@@ -156,15 +156,15 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
                   className={cn(
                     "w-6 h-6 rounded-full border-2 transition-all",
                     selectedColors.includes(color.id)
-                      ? "border-gray-900 dark:border-gray-100 ring-2 ring-offset-2 ring-gray-900 dark:ring-gray-100"
-                      : "border-gray-300 dark:border-gray-600"
+                      ? "border-foreground ring-2 ring-offset-2 ring-foreground"
+                      : "border-border"
                   )}
                   style={{
                     backgroundColor: color.hex,
-                    borderColor: color.hex === "#FFFFFF" ? "#e5e7eb" : color.hex,
+                    borderColor: color.hex === "#FFFFFF" ? "var(--border)" : color.hex,
                   }}
                 />
-                <span className="text-sm text-gray-700 dark:text-gray-300">{color.label}</span>
+                <span className="text-sm text-foreground-muted">{color.label}</span>
               </label>
             ))}
           </div>
@@ -172,18 +172,18 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
       </div>
 
       {/* Price Filter */}
-      <div className="border-b border-gray-200 dark:border-gray-800">
+      <div className="border-b border-border">
         <button
           onClick={() => toggleSection("price")}
-          className="w-full flex items-center justify-between py-4 text-left hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
+          className="w-full flex items-center justify-between py-4 px-4 text-left bg-surface hover:bg-border transition-colors"
         >
-          <span className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
+          <span className="text-sm font-bold uppercase tracking-wider text-foreground">
             Price Range
           </span>
           {isExpanded("price") ? (
-            <ChevronUp className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ChevronUp className="w-5 h-5 text-foreground-muted" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ChevronDown className="w-5 h-5 text-foreground-muted" />
           )}
         </button>
 
@@ -196,27 +196,27 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
           <div className={cn("space-y-3", isExpanded("price") ? "pb-4" : "")}>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Min</label>
+                <label className="block text-xs text-foreground-muted mb-1">Min</label>
                 <input
                   type="number"
                   placeholder="0"
                   value={priceRange.min}
                   onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                  className="w-full px-3 py-2 text-sm border border-border rounded bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">Max</label>
+                <label className="block text-xs text-foreground-muted mb-1">Max</label>
                 <input
                   type="number"
                   placeholder="5,000,000"
                   value={priceRange.max}
                   onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400"
+                  className="w-full px-3 py-2 text-sm border border-border rounded bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
                 />
               </div>
             </div>
-            <button className="w-full py-2 text-sm font-bold uppercase tracking-wider bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors">
+            <button className="w-full py-2 text-sm font-bold uppercase tracking-wider bg-foreground text-background hover:opacity-90 transition-colors">
               Apply
             </button>
           </div>
@@ -224,18 +224,18 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
       </div>
 
       {/* Material Filter */}
-      <div className="border-b border-gray-200 dark:border-gray-800">
+      <div className="border-b border-border">
         <button
           onClick={() => toggleSection("material")}
-          className="w-full flex items-center justify-between py-4 text-left hover:bg-gray-50 dark:hover:bg-gray-900/50 transition-colors"
+          className="w-full flex items-center justify-between py-4 px-4 text-left bg-surface hover:bg-border transition-colors"
         >
-          <span className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
+          <span className="text-sm font-bold uppercase tracking-wider text-foreground">
             Material
           </span>
           {isExpanded("material") ? (
-            <ChevronUp className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ChevronUp className="w-5 h-5 text-foreground-muted" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-600 dark:text-gray-400" />
+            <ChevronDown className="w-5 h-5 text-foreground-muted" />
           )}
         </button>
 
@@ -249,7 +249,7 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
             {MATERIALS.map((material) => (
               <label
                 key={material.id}
-                className="flex items-center justify-between cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-900/50 py-1 transition-colors"
+                className="flex items-center justify-between cursor-pointer hover:bg-surface py-1 transition-colors"
               >
                 <div className="flex items-center gap-2">
                   <input
@@ -262,11 +262,11 @@ export function FilterSidebar({ onFilterChange, hideHeader = false }: FilterSide
                         setSelectedMaterials(selectedMaterials.filter(m => m !== material.id));
                       }
                     }}
-                    className="w-4 h-4 text-gray-900 border-gray-300 dark:border-gray-600 rounded focus:ring-2 focus:ring-gray-400"
+                    className="w-4 h-4 text-foreground border-border rounded focus:ring-2 focus:ring-accent"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">{material.label}</span>
+                  <span className="text-sm text-foreground-muted">{material.label}</span>
                 </div>
-                <span className="text-xs text-gray-500 dark:text-gray-500">({material.count})</span>
+                <span className="text-xs text-foreground-muted">({material.count})</span>
               </label>
             ))}
           </div>

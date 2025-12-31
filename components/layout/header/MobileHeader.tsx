@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, ShoppingBag } from "lucide-react";
+import Image from "next/image";
+import { Menu, ShoppingBag, Search } from "lucide-react";
 import { MobileMenuDrawer } from "./MobileMenuDrawer";
 
 export function MobileHeader() {
@@ -10,34 +11,56 @@ export function MobileHeader() {
 
   return (
     <>
-      <header className="lg:hidden sticky top-0 z-40 h-[60px] px-4 bg-white dark:bg-[#1a202c] border-b border-gray-100 dark:border-gray-800">
+      <header className="lg:hidden sticky top-0 z-40 h-[60px] px-4 bg-background border-b border-border">
         <div className="h-full flex items-center justify-between">
           
-          {/* Left: Hamburger Menu */}
-          <button
-            onClick={() => setIsDrawerOpen(true)}
-            className="p-2 -ml-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
-            aria-label="Open menu"
-          >
-            <Menu className="w-6 h-6" strokeWidth={1.5} />
-          </button>
+          {/* Left: Hamburger Menu & Search */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setIsDrawerOpen(true)}
+              className="p-2 -ml-2 text-foreground-muted hover:text-foreground transition-colors"
+              aria-label="Open menu"
+            >
+              <Menu className="w-7 h-7" strokeWidth={1.5} />
+            </button>
+            <button
+              onClick={() => {
+                const event = new CustomEvent('openSearch');
+                window.dispatchEvent(event);
+              }}
+              className="p-2 text-foreground-muted hover:text-foreground transition-colors"
+              aria-label="Search"
+            >
+              <Search className="w-6 h-6" strokeWidth={1.5} />
+            </button>
+          </div>
 
-          {/* Center: Brand Name */}
+          {/* Center: Logo + Brand Name */}
           <Link
             href="/"
-            className="font-playfair text-2xl font-bold text-gray-900 dark:text-white"
+            className="flex items-center justify-center gap-1.5 hover:opacity-80 transition-opacity"
           >
-            GRIS-CAT
+            <Image
+              src="/logo.png"
+              alt="GRIS-CAT"
+              width={160}
+              height={50}
+              className="h-10 w-auto object-contain"
+              priority
+            />
+            <span className="font-playfair text-xl font-bold text-foreground-muted">
+              GRIS-CAT
+            </span>
           </Link>
 
           {/* Right: Cart */}
           <Link
             href="/cart"
-            className="relative p-2 -mr-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            className="relative p-2 -mr-2 text-foreground-muted hover:text-foreground transition-colors"
             aria-label="Shopping Cart"
           >
             <ShoppingBag className="w-6 h-6" strokeWidth={1.5} />
-            <span className="absolute top-0 right-0 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+            <span className="absolute top-0 right-0 bg-foreground text-background text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
               0
             </span>
           </Link>

@@ -11,13 +11,50 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Refined Color Palette
-        'background-light': '#FFFFFF',
-        'background-dark': '#1A202C', // Slate-900 (High-end dark background)
-        'text-main-light': '#374151', // Gray-700
-        'text-main-dark': '#F3F4F6',  // Gray-100
-        'accent-grey': '#4A5568',     // Cool Grey (Gris brand color)
-
+        // CSS Variables for Theme Colors (Primary)
+        background: {
+          DEFAULT: 'var(--background)',
+          alt: 'var(--background-alt)',
+        },
+        foreground: {
+          DEFAULT: 'var(--foreground)',
+          muted: 'var(--foreground-muted)',
+        },
+        border: {
+          DEFAULT: 'var(--border)',
+        },
+        surface: {
+          DEFAULT: 'var(--surface)',
+        },
+        accent: {
+          DEFAULT: 'var(--accent)',
+          light: 'var(--accent-light)',
+        },
+        // Ballet-Classic Theme Palette (Named Colors)
+        charcoal: {
+          DEFAULT: '#18191B',
+          light: '#393A3C',
+          lighter: '#5A5B5D',
+        },
+        ivory: {
+          DEFAULT: '#F7F8F9',
+          light: '#FFFFFF',
+        },
+        muted: {
+          DEFAULT: '#E1E3E6',
+          light: '#F0F1F3',
+          dark: '#C8CACD',
+        },
+        champagne: {
+          DEFAULT: '#C9A24D',
+          light: '#E6D8B8',
+          dark: '#B8943A',
+        },
+        beige: {
+          DEFAULT: '#E6D8B8',
+          light: '#F5EDDC',
+          dark: '#D4C19A',
+        },
         // Legacy/Existing Brand Colors for compatibility
         'gris': {
           dark: '#4A5568',
@@ -30,12 +67,14 @@ const config: Config = {
         sans: ['var(--font-montserrat)', ...fontFamily.sans],
         playfair: ['var(--font-playfair)', ...fontFamily.serif],
       },
-      // Override default background and text colors to use the new palette
-      backgroundColor: {
-        background: 'var(--background)',
+      boxShadow: {
+        'elegant': '0 2px 8px var(--shadow)',
+        'elegant-lg': '0 4px 16px var(--shadow)',
+        'elegant-xl': '0 8px 24px var(--shadow)',
       },
-      textColor: {
-        foreground: 'var(--foreground)',
+      borderRadius: {
+        'elegant': '0.5rem',
+        'elegant-sm': '0.375rem',
       },
     },
   },

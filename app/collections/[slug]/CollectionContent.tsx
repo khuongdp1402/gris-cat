@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { SlidersHorizontal, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { FilterSidebar } from "@/components/collection/FilterSidebar";
@@ -32,6 +33,7 @@ interface CollectionContentProps {
     description: string;
     breadcrumb: Array<{ name: string; href: string }>;
     productCount: number;
+    slug: string;
   };
 }
 
@@ -61,10 +63,27 @@ export function CollectionContent({ collection }: CollectionContentProps) {
   const [sortBy, setSortBy] = useState("featured");
   const [activeFilters, setActiveFilters] = useState<string[]>([]);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [isDesktopFilterOpen, setIsDesktopFilterOpen] = useState(false);
+  const [isToolbarSticky, setIsToolbarSticky] = useState(false);
+  const [gridCols, setGridCols] = useState(4); // View by: 3, 4, or 6 columns
   
   const displayCount = products.length;
   const totalCount = collection.productCount;
   const hasMore = false; // For demo, no more products
+  
+  // Get grid class based on column count
+  const getGridClass = () => {
+    switch (gridCols) {
+      case 3:
+        return "grid-cols-2 md:grid-cols-2 lg:grid-cols-3";
+      case 4:
+        return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
+      case 6:
+        return "grid-cols-2 md:grid-cols-4 lg:grid-cols-6";
+      default:
+        return "grid-cols-2 md:grid-cols-3 lg:grid-cols-4";
+    }
+  };
 
   const handleLoadMore = async () => {
     setIsLoading(true);
@@ -78,49 +97,64 @@ export function CollectionContent({ collection }: CollectionContentProps) {
     setActiveFilters(prev => prev.filter(f => f !== filter));
   };
 
+  // Sticky toolbar on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      // Show sticky toolbar after scrolling past banner section (approximately 200px)
+      setIsToolbarSticky(scrollY > 200);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="min-h-screen bg-white dark:bg-[#1a202c]">
+    <div className="min-h-screen bg-background">
       {/* Breadcrumbs */}
       <Breadcrumbs items={collection.breadcrumb} />
 
       {/* Banner Section */}
-      <div className="border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-[#1a202c]">
+      <div className="border-b border-border bg-background">
         <div className="max-w-[1440px] mx-auto px-6 py-8 md:py-12">
-          <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4">
+          <h1 className="font-playfair text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             {collection.name}
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base max-w-3xl leading-relaxed mb-6">
+          <p className="text-foreground-muted text-sm md:text-base max-w-3xl leading-relaxed mb-6">
             {collection.description}
           </p>
           
-          {/* Toolbar */}
-          <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-800">
-            {/* Left: Item Count */}
-            <div className="text-sm text-gray-600 dark:text-gray-400">
-              Showing <span className="font-medium text-gray-900 dark:text-gray-100">1</span> - <span className="font-medium text-gray-900 dark:text-gray-100">{displayCount}</span> of{" "}
-              <span className="font-medium text-gray-900 dark:text-gray-100">{totalCount}</span> items
-            </div>
-
-            {/* Right: Sort By, View By & Mobile Filter */}
+          {/* Toolbar (Non-sticky in banner - Hidden when sticky toolbar is visible) */}
+          <div className={`flex items-center justify-between pt-4 border-t border-border transition-opacity ${isToolbarSticky ? 'opacity-0 h-0 overflow-hidden' : 'opacity-100'}`}>
+            {/* Left: Filter Button | Sort By */}
             <div className="flex items-center gap-4">
-              {/* Mobile Filter Button */}
+              {/* Filter Button */}
               <button
-                onClick={() => setIsMobileFilterOpen(true)}
-                className="lg:hidden flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                onClick={() => {
+                  if (window.innerWidth < 1024) {
+                    setIsMobileFilterOpen(true);
+                  } else {
+                    setIsDesktopFilterOpen(!isDesktopFilterOpen);
+                  }
+                }}
+                className="flex items-center gap-2 px-4 py-2 text-sm font-bold uppercase tracking-wider text-foreground-muted border border-border hover:bg-surface transition-colors"
               >
                 <SlidersHorizontal className="w-4 h-4" />
-                Filters
+                <span className="hidden sm:inline">Filter</span>
+                {isDesktopFilterOpen && (
+                  <span className="hidden lg:inline text-xs">({activeFilters.length})</span>
+                )}
               </button>
 
-              {/* Sort By (Desktop) */}
-              <div className="hidden lg:flex items-center gap-2">
-                <span className="text-sm font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
-                  SORT BY
-                </span>
+              {/* Separator */}
+              <span className="hidden lg:block text-border">|</span>
+
+              {/* Sort By (Desktop) - No title */}
+              <div className="hidden lg:flex items-center">
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="text-sm font-medium text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-0 focus:outline-none focus:ring-0 cursor-pointer"
+                  className="text-sm font-medium text-foreground bg-background border-0 focus:outline-none focus:ring-0 cursor-pointer"
                 >
                   {SORT_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -129,41 +163,130 @@ export function CollectionContent({ collection }: CollectionContentProps) {
                   ))}
                 </select>
               </div>
+            </div>
 
-              {/* View By Grid Columns (Desktop) */}
-              <div className="hidden lg:flex items-center gap-2">
-                <span className="text-sm text-gray-600 dark:text-gray-400">VIEW BY</span>
-                <div className="flex items-center gap-1">
-                  {[3, 4, 6].map((cols) => (
-                    <button
-                      key={cols}
-                      onClick={() => {
-                        // Handle grid columns change
-                        console.log(`View by ${cols} columns`);
-                      }}
-                      className="px-3 py-1 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                    >
-                      {cols}
-                    </button>
-                  ))}
-                </div>
+            {/* Center: Item Count */}
+            <div className="text-sm text-foreground-muted">
+              Showing <span className="font-medium text-foreground">1</span> - <span className="font-medium text-foreground">{displayCount}</span> of{" "}
+              <span className="font-medium text-foreground">{totalCount}</span> items
+            </div>
+
+            {/* Right: View By */}
+            <div className="hidden lg:flex items-center gap-2">
+              <span className="text-sm text-foreground-muted">VIEW BY</span>
+              <div className="flex items-center gap-1">
+                {[3, 4, 6].map((cols) => (
+                  <button
+                    key={cols}
+                    onClick={() => setGridCols(cols)}
+                    className={`px-3 py-1 text-sm font-medium transition-colors ${
+                      gridCols === cols
+                        ? "bg-foreground text-background"
+                        : "text-foreground-muted hover:text-foreground hover:bg-surface"
+                    }`}
+                  >
+                    {cols}
+                  </button>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Content Area */}
+      {/* Sticky Toolbar (Shows on scroll - At top of page) */}
+      <AnimatePresence>
+        {isToolbarSticky && (
+          <motion.div
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="sticky top-[70px] z-30 bg-background border-b border-border shadow-elegant"
+          >
+            <div className="max-w-[1440px] mx-auto px-6 py-4">
+              <div className="flex items-center justify-between">
+                {/* Left: Filter Button | Sort By */}
+                <div className="flex items-center gap-4">
+                  {/* Filter Button */}
+                  <button
+                    onClick={() => {
+                      if (window.innerWidth < 1024) {
+                        setIsMobileFilterOpen(true);
+                      } else {
+                        setIsDesktopFilterOpen(!isDesktopFilterOpen);
+                      }
+                    }}
+                    className="flex items-center gap-2 px-4 py-2 text-sm font-bold uppercase tracking-wider text-foreground-muted border border-border hover:bg-surface transition-colors"
+                  >
+                    <SlidersHorizontal className="w-4 h-4" />
+                    <span className="hidden sm:inline">Filter</span>
+                    {isDesktopFilterOpen && (
+                      <span className="hidden lg:inline text-xs">({activeFilters.length})</span>
+                    )}
+                  </button>
+
+                  {/* Separator */}
+                  <span className="hidden lg:block text-border">|</span>
+
+                  {/* Sort By (Desktop) - No title */}
+                  <div className="hidden lg:flex items-center">
+                    <select
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className="text-sm font-medium text-foreground bg-background border-0 focus:outline-none focus:ring-0 cursor-pointer"
+                    >
+                      {SORT_OPTIONS.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Center: Item Count */}
+                <div className="text-sm text-foreground-muted">
+                  Showing <span className="font-medium text-foreground">1</span> - <span className="font-medium text-foreground">{displayCount}</span> of{" "}
+                  <span className="font-medium text-foreground">{totalCount}</span> items
+                </div>
+
+                {/* Right: View By */}
+                <div className="hidden lg:flex items-center gap-2">
+                  <span className="text-sm text-foreground-muted">VIEW BY</span>
+                  <div className="flex items-center gap-1">
+                    {[3, 4, 6].map((cols) => (
+                      <button
+                        key={cols}
+                        onClick={() => setGridCols(cols)}
+                        className={`px-3 py-1 text-sm font-medium transition-colors ${
+                          gridCols === cols
+                            ? "bg-foreground text-background"
+                            : "text-foreground-muted hover:text-foreground hover:bg-surface"
+                        }`}
+                      >
+                        {cols}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content Area - Filter (Left) + Products (Right) */}
       <div className="max-w-[1440px] mx-auto px-6 py-12">
         {/* Active Filters */}
         {activeFilters.length > 0 && (
           <div className="mb-8 flex flex-wrap items-center gap-2">
-            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Active Filters:</span>
+            <span className="text-sm font-medium text-foreground-muted">Active Filters:</span>
             {activeFilters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => handleRemoveFilter(filter)}
-                className="inline-flex items-center gap-2 px-3 py-1 text-sm bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                className="inline-flex items-center gap-2 px-3 py-1 text-sm bg-surface text-foreground-muted rounded-full hover:bg-border transition-colors"
               >
                 {filter}
                 <X className="w-3 h-3" />
@@ -171,7 +294,7 @@ export function CollectionContent({ collection }: CollectionContentProps) {
             ))}
             <button
               onClick={() => setActiveFilters([])}
-              className="text-sm text-gray-600 dark:text-gray-400 underline hover:text-gray-900 dark:hover:text-gray-200"
+              className="text-sm text-foreground-muted underline hover:text-foreground"
             >
               Clear all
             </button>
@@ -179,21 +302,56 @@ export function CollectionContent({ collection }: CollectionContentProps) {
         )}
 
         {/* Grid Layout: Filter (LEFT) + Products (RIGHT) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
-          {/* Filter Sidebar - LEFT (3 columns) - Desktop Only */}
-          <div className="hidden lg:block lg:col-span-3">
-            <div className="lg:sticky lg:top-24 lg:h-fit">
-              <FilterSidebar
-                onFilterChange={(filters) => {
-                  console.log("Filters:", filters);
+        <div className="relative flex gap-8 lg:gap-12">
+          {/* Filter Sidebar - LEFT - Desktop Only (Slide In/Out) */}
+          <AnimatePresence initial={false} mode="wait">
+            {isDesktopFilterOpen && (
+              <motion.div
+                key="filter-sidebar"
+                initial={{ width: 0, opacity: 0, x: -20 }}
+                animate={{ 
+                  width: "280px", 
+                  opacity: 1, 
+                  x: 0,
+                  transition: {
+                    width: { duration: 0.4, ease: [0.4, 0, 0.2, 1] },
+                    opacity: { duration: 0.3, ease: "easeOut" },
+                    x: { duration: 0.4, ease: [0.4, 0, 0.2, 1] }
+                  }
                 }}
-              />
-            </div>
-          </div>
+                exit={{ 
+                  width: 0, 
+                  opacity: 0, 
+                  x: -20,
+                  transition: {
+                    width: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+                    opacity: { duration: 0.2, ease: "easeIn" },
+                    x: { duration: 0.3, ease: [0.4, 0, 0.2, 1] }
+                  }
+                }}
+                className="hidden lg:block flex-shrink-0 overflow-hidden"
+              >
+                <motion.div 
+                  className={`sticky w-[280px] ${isToolbarSticky ? 'top-[140px]' : 'top-4'}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2, delay: 0.1 }}
+                >
+                  <FilterSidebar
+                    onFilterChange={(filters) => {
+                      console.log("Filters:", filters);
+                    }}
+                    hideHeader={true}
+                  />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
-          {/* Product Grid - RIGHT (9 columns) */}
-          <div className="lg:col-span-9 order-1 lg:order-2">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 gap-y-10">
+          {/* Product Grid - RIGHT (Flexible Width) */}
+          <div className="flex-1 min-w-0">
+            <div className={`grid ${getGridClass()} gap-x-4 gap-y-10`}>
               {products.map((product) => (
                 <Link key={product.id} href={`/products/${product.slug}`}>
                   <ProductCard
@@ -212,28 +370,26 @@ export function CollectionContent({ collection }: CollectionContentProps) {
               ))}
             </div>
 
-            {/* Load More Button */}
-            {hasMore && (
-              <div className="mt-12 flex justify-center">
-                <button
-                  onClick={handleLoadMore}
-                  disabled={isLoading}
-                  className="px-12 py-3 text-sm font-bold uppercase tracking-widest text-gray-900 dark:text-gray-100 bg-white dark:bg-gray-800 border-2 border-gray-900 dark:border-gray-100 hover:bg-gray-900 hover:text-white dark:hover:bg-gray-100 dark:hover:text-gray-900 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isLoading ? (
-                    <span className="flex items-center gap-2">
-                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                      </svg>
-                      Loading...
-                    </span>
-                  ) : (
-                    "LOAD MORE"
-                  )}
-                </button>
-              </div>
-            )}
+            {/* Load More Button - Always visible */}
+            <div className="mt-12 flex justify-center">
+              <button
+                onClick={handleLoadMore}
+                disabled={isLoading}
+                className="px-12 py-3 text-sm font-bold uppercase tracking-widest text-foreground bg-background border-2 border-foreground hover:bg-foreground hover:text-background transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isLoading ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                    </svg>
+                    Loading...
+                  </span>
+                ) : (
+                  "LOAD MORE"
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

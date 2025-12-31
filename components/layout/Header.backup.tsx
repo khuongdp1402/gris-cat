@@ -18,7 +18,7 @@ const NAV_ITEMS = [
 /**
  * Cat Icon Component (Small version for Header)
  */
-const CatIcon = ({ className }: { className?: string }) => (
+const CatIcon = ({ className }: { className?: string }): JSX.Element => (
   <svg
     viewBox="0 0 24 24"
     fill="none"

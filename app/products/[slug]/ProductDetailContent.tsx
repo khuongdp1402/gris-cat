@@ -34,7 +34,7 @@ interface ProductDetailContentProps {
 
 export function ProductDetailContent({ product }: ProductDetailContentProps) {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#1a202c]">
+    <div className="min-h-screen bg-background">
       {/* Breadcrumbs */}
       <Breadcrumbs items={product.breadcrumb} />
 
@@ -60,7 +60,7 @@ export function ProductDetailContent({ product }: ProductDetailContentProps) {
       </div>
 
       {/* Related Products Section */}
-      <div className="border-t border-gray-200 dark:border-gray-800 mt-16">
+      <div className="border-t border-border mt-16">
         <RelatedProducts currentProductId={product.id} />
       </div>
     </div>

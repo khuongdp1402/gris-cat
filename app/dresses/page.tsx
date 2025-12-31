@@ -4,7 +4,7 @@ const dresses = [
   {
     name: "Velvet Evening Dress",
     price: "3,100,000đ",
-    imageUrl:
+    imageMain:
       "https://images.unsplash.com/photo-1566479179817-4d9c0c5e3e0e?q=80&w=800&auto=format&fit=crop",
     id: "velvet-evening-dress",
   },
@@ -28,7 +28,8 @@ export default function DressesPage() {
             key={product.id}
             name={product.name}
             price={product.price}
-            imageUrl={product.imageUrl}
+            imageMain={product.imageMain}
+            imageHover={product.imageMain}
           />
         ))}
       </div>

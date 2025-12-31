@@ -30,16 +30,16 @@ export function MobileFilterDrawer({ isOpen, onClose, onFilterChange }: MobileFi
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 w-[85vw] max-w-sm bg-white dark:bg-[#1a202c] z-50 flex flex-col shadow-2xl overflow-hidden"
+            className="fixed right-0 top-0 bottom-0 w-[85vw] max-w-sm bg-background z-50 flex flex-col shadow-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
-              <h2 className="text-lg font-bold uppercase tracking-wider text-gray-900 dark:text-gray-100">
+            <div className="flex items-center justify-between p-6 border-b border-border">
+              <h2 className="text-lg font-bold uppercase tracking-wider text-foreground">
                 Filters
               </h2>
               <button
                 onClick={onClose}
-                className="p-2 -mr-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+                className="p-2 -mr-2 text-foreground-muted hover:text-foreground transition-colors"
                 aria-label="Close filters"
               >
                 <X className="w-6 h-6" />
@@ -54,10 +54,10 @@ export function MobileFilterDrawer({ isOpen, onClose, onFilterChange }: MobileFi
             </div>
 
             {/* Footer Actions */}
-            <div className="p-6 border-t border-gray-200 dark:border-gray-800 space-y-3">
+            <div className="p-6 border-t border-border space-y-3">
               <button
                 onClick={onClose}
-                className="w-full py-3 text-sm font-bold uppercase tracking-wider bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 hover:bg-gray-800 dark:hover:bg-gray-200 transition-colors"
+                className="w-full py-3 text-sm font-bold uppercase tracking-wider bg-foreground text-background hover:opacity-90 transition-colors"
               >
                 Apply Filters
               </button>
@@ -66,7 +66,7 @@ export function MobileFilterDrawer({ isOpen, onClose, onFilterChange }: MobileFi
                   // Reset all filters
                   onClose();
                 }}
-                className="w-full py-3 text-sm font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="w-full py-3 text-sm font-bold uppercase tracking-wider text-foreground-muted border border-border hover:bg-surface transition-colors"
               >
                 Clear All
               </button>

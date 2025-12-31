@@ -18,7 +18,7 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#F9FAFB] dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+    <footer className="bg-background-alt border-t border-border">
       <div className="container mx-auto px-4 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-8">
           {/* Brand Story */}
@@ -43,7 +43,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="font-sans text-sm font-light text-foreground/70 hover:text-brand-accent transition-colors"
+                    className="font-sans text-sm font-light text-foreground-muted hover:text-foreground transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -66,7 +66,7 @@ export function Footer() {
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-foreground/60 hover:text-brand-accent transition-colors"
+                    className="text-foreground-muted hover:text-foreground transition-colors"
                     aria-label={social.label}
                   >
                     <Icon className="w-5 h-5" />

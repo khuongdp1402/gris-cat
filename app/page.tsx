@@ -4,39 +4,37 @@ import {
   SpotlightCarousel,
   HomeProductGrids
 } from "@/components/ui";
-import { HeroCarousel } from "@/components/layout";
+import { ClassicHeroCarousel } from "@/components/layout";
 
 export default function Home() {
   return (
     <main className="relative min-h-screen">
-      {/* Hero Carousel */}
-      <HeroCarousel />
+      {/* 1. Hero Carousel */}
+      <ClassicHeroCarousel />
 
-      {/* 4. Promotional Highlights */}
-      <section className="relative z-0">
+      {/* 2. Promotional Highlights - White Background */}
+      <section className="relative z-0 bg-background">
         <SaleBanner />
         <SplitHero />
       </section>
 
-      {/* 5. Content Discovery Modules */}
-      <div className="my-12 md:my-20">
+      {/* 3. Product Grids (New In + Most Wanted) - Each has own background */}
+      <HomeProductGrids />
+
+      {/* 4. Spotlight Carousel - Light Grey Background */}
+      <section className="bg-background-alt">
         <SpotlightCarousel />
-      </div>
+      </section>
 
-      <div className="pb-12 md:pb-20">
-        <HomeProductGrids />
-      </div>
-
-      {/* 6. Brand Narrative Section */}
-      <section className="py-16 md:py-24 bg-gris-backdrop dark:bg-slate-800/50">
-        {/* ... existing footer content ... */}
+      {/* 5. Brand Narrative Section - White Background */}
+      <section className="py-16 md:py-24 bg-background">
         <div className="max-w-[1440px] mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
             <div className="space-y-6 md:space-y-10 order-2 lg:order-1">
-              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl font-medium text-foreground dark:text-text-main-dark leading-tight">
+              <h2 className="font-playfair text-4xl md:text-5xl lg:text-6xl font-medium text-foreground leading-tight">
                 The Gris-Cat <br /> Philosophy
               </h2>
-              <div className="space-y-6 font-sans text-base md:text-lg font-light text-foreground/80 dark:text-text-main-dark/80 leading-relaxed max-w-xl">
+              <div className="space-y-6 font-sans text-base md:text-lg font-light text-foreground-muted leading-relaxed max-w-xl">
                 <p>
                   At Gris-Cat, we believe in timeless elegance that transcends
                   fleeting trends. Our philosophy is rooted in the delicate

@@ -78,10 +78,22 @@ export function HeroCarousel() {
     }),
   };
 
+  // Preload next and previous images
+  useEffect(() => {
+    const nextIndex = (currentSlide + 1) % HERO_SLIDES.length;
+    const prevIndex = (currentSlide - 1 + HERO_SLIDES.length) % HERO_SLIDES.length;
+    
+    const nextImg = new window.Image();
+    nextImg.src = HERO_SLIDES[nextIndex].image;
+    
+    const prevImg = new window.Image();
+    prevImg.src = HERO_SLIDES[prevIndex].image;
+  }, [currentSlide]);
+
   return (
-    <section className="relative w-full h-[75vh] md:h-[85vh] overflow-hidden bg-gray-100 dark:bg-gray-900">
+    <section className="relative w-full h-[75vh] md:h-[85vh] overflow-hidden">
       {/* Slides */}
-      <AnimatePresence initial={false} custom={direction} mode="wait">
+      <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentSlide}
           custom={direction}
@@ -90,8 +102,8 @@ export function HeroCarousel() {
           animate="center"
           exit="exit"
           transition={{
-            x: { type: "spring", stiffness: 300, damping: 30 },
-            opacity: { duration: 0.3 },
+            x: { type: "spring", stiffness: 100, damping: 50, duration: 1.2 },
+            opacity: { duration: 0.4, ease: "easeInOut" },
           }}
           className="absolute inset-0"
         >
@@ -102,7 +114,8 @@ export function HeroCarousel() {
               alt={HERO_SLIDES[currentSlide].title}
               fill
               className="object-cover object-center"
-              priority
+              priority={currentSlide === 0}
+              quality={90}
             />
             {/* Gradient overlay */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/50" />
@@ -146,18 +159,18 @@ export function HeroCarousel() {
       <div className="hidden md:block">
         <button
           onClick={prevSlide}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full transition-all hover:scale-110"
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full transition-all duration-500 ease-in-out hover:scale-105"
           aria-label="Previous slide"
         >
-          <ChevronLeft className="w-6 h-6 text-white" strokeWidth={2} />
+          <ChevronLeft className="w-5 h-5 text-white/90" strokeWidth={1} />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-12 h-12 flex items-center justify-center bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full transition-all hover:scale-110"
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full transition-all duration-500 ease-in-out hover:scale-105"
           aria-label="Next slide"
         >
-          <ChevronRight className="w-6 h-6 text-white" strokeWidth={2} />
+          <ChevronRight className="w-5 h-5 text-white/90" strokeWidth={1} />
         </button>
       </div>
 
@@ -167,10 +180,10 @@ export function HeroCarousel() {
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`transition-all ${
+            className={`transition-all duration-500 ease-in-out ${
               index === currentSlide
-                ? "w-8 h-2 bg-white rounded-full"
-                : "w-2 h-2 bg-white/50 hover:bg-white/70 rounded-full"
+                ? "w-8 h-[2px] bg-white/90 rounded-full"
+                : "w-2 h-[2px] bg-white/30 hover:bg-white/50 rounded-full"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
